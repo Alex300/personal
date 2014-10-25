@@ -1,9 +1,9 @@
 personal
 ========
 
-Job search and the employees module for Cotonti CMS (http://cotonto.com).
+Job search and the employees module for Cotonti CMS ( http://cotonti.com ).
 
 Vacancies of the companies. 
 Users Resumes.
 
-Russian documentation: 
+Russian documentation: http://portal30.ru
