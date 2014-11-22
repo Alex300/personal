@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS `cot_personal_categories`,
                      `cot_personal_resumes_employment`,
                      `cot_personal_resumes_experience`,
                      `cot_personal_resumes_lang_levels`,
-                     `cot_personal_resumes_link_cot_city`
+                     `cot_personal_resumes_link_cot_city`,
                      `cot_personal_resumes_link_cot_personal_categories`,
                      `cot_personal_resumes_link_cot_personal_staff`,
                      `cot_personal_resumes_recommendations`,

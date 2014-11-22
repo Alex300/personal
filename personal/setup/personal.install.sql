@@ -359,3 +359,41 @@ INSERT INTO `cot_personal_languages` (`id`, `title`, `sort`) VALUES
   (32, 'Hindi', 32);
 
 
+--
+-- Структура таблицы `cot_personal_resumes_link_cot_city`
+--
+CREATE TABLE IF NOT EXISTS `cot_personal_resumes_link_cot_city` (
+  `xref_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `cot_personal_resumes_id` int(11) DEFAULT NULL,
+  `cot_city_city_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`xref_id`),
+  KEY `personal_resumes_id` (`cot_personal_resumes_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+--
+-- Структура таблицы `cot_personal_resumes_link_cot_personal_categories`
+--
+CREATE TABLE IF NOT EXISTS `cot_personal_resumes_link_cot_personal_categories` (
+  `xref_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `cot_personal_resumes_id` int(11) DEFAULT NULL,
+  `cot_personal_categories_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`xref_id`),
+  KEY `personal_resumes_id` (`cot_personal_resumes_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+
+--
+-- Структура таблицы `cot_personal_resumes_link_cot_personal_staff`
+--
+CREATE TABLE IF NOT EXISTS `cot_personal_resumes_link_cot_personal_staff` (
+  `xref_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `cot_personal_resumes_id` int(11) DEFAULT NULL,
+  `cot_personal_staff_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`xref_id`),
+  KEY `personal_resumes_id` (`cot_personal_resumes_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

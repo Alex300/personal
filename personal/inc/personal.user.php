@@ -1,6 +1,8 @@
 <?php
 defined('COT_CODE') or die('Wrong URL.');
 
+if(!function_exists('cot_user_data')) require_once cot_incfile('users', 'module');
+
 /**
  * Personal User Controller class for the Personal module
  *
