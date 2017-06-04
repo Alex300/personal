@@ -7,16 +7,16 @@ if(!function_exists('cot_user_data')) require_once cot_incfile('users', 'module'
  * Personal User Controller class for the Personal module
  *
  * @package Personal
- * @subpackage User
- * @copyright http://portal30.ru
+ * @author Kalnov Alexey <kalnovalexey@yandex.ru>
+ * @copyright (c) Portal30 Studio http://portal30.ru
  */
-class UserController{
-
+class UserController
+{
     /**
-     * Список групп вуза
      * @return string
      */
-    public function indexAction(){
+    public function indexAction()
+    {
         // Error page
         cot_die_message(404);
         exit;
@@ -28,7 +28,7 @@ class UserController{
         list($usr['auth_read'], $usr['auth_write'], $usr['isadmin']) = cot_auth('vuz', 'a');
         cot_block($usr['auth_read']);
 
-        cot_rc_link_file(cot::$cfg['modules_dir'].'/personal/js/jquery.smartDialog.js');
+        Resources::linkFile(cot::$cfg['modules_dir'].'/personal/js/jquery.smartDialog.js');
 
         $title = cot::$L['personal_my_vacancies'];
 
@@ -65,7 +65,7 @@ class UserController{
         list($pg, $d, $durl) = cot_import_pagenav('d', $maxrowsperpage); //page number for pages list
         if($pg > 1) cot::$out['subtitle'] .= cot_rc('code_title_page_num', array('num' => $pg));
 
-        $vacancies = personal_model_Vacancy::find($condition, $maxrowsperpage, $d, array(
+        $vacancies = personal_model_Vacancy::findByCondition($condition, $maxrowsperpage, $d, array(
             array('active', 'DESC'), array('hot', 'DESC'), array('sort', 'DESC'), array('activated', 'desc')
         ));
         $totallines = personal_model_Vacancy::count($condition);
@@ -171,7 +171,7 @@ class UserController{
 
 
         $staffArr = array();
-        $staffs = personal_model_Staff::find();
+        $staffs = personal_model_Staff::findByCondition();
         if(!empty($staffs)){
             foreach($staffs as $staffRow){
                 $staffArr[$staffRow->id] = $staffRow->title;
@@ -179,7 +179,7 @@ class UserController{
         }
 
         $eduArr = array();
-        $edus = personal_model_EducationLevel::find();
+        $edus = personal_model_EducationLevel::findByCondition();
         if(!empty($edus)){
             foreach($edus as $eduRow){
                 $eduArr[$eduRow->id] = $eduRow->title;
@@ -531,13 +531,14 @@ class UserController{
         return  $t->text();
     }
 
-    public function resumeAction(){
-        global $usr, $db_users;
+    public function resumeAction()
+    {
+        global $usr;
 
         list($usr['auth_read'], $usr['auth_write'], $usr['isadmin']) = cot_auth('vuz', 'a');
         cot_block($usr['auth_read']);
 
-        cot_rc_link_file(cot::$cfg['modules_dir'].'/personal/js/jquery.smartDialog.js');
+        Resources::linkFile(cot::$cfg['modules_dir'].'/personal/js/jquery.smartDialog.js');
 
         $title = cot::$L['personal_my_resumes'];
 
@@ -574,7 +575,7 @@ class UserController{
         list($pg, $d, $durl) = cot_import_pagenav('d', $maxrowsperpage); //page number for pages list
         if($pg > 1) cot::$out['subtitle'] .= cot_rc('code_title_page_num', array('num' => $pg));
 
-        $resumes = personal_model_Resume::find($condition, $maxrowsperpage, $d, array(
+        $resumes = personal_model_Resume::findByCondition($condition, $maxrowsperpage, $d, array(
             array('active', 'DESC'), array('hot', 'DESC'), array('sort', 'DESC'), array('activated', 'desc')
         ));
         $totallines = personal_model_Resume::count($condition);
@@ -629,7 +630,8 @@ class UserController{
         return  $t->text();
     }
 
-    public function resumeViewAction(){
+    public function resumeViewAction()
+    {
         global $usr, $db_personal_languages, $db_personal_resumes_lang_levels, $db_personal_education_levels;
 
         list($usr['auth_read'], $usr['auth_write'], $usr['isadmin']) = cot_auth('personal', 'a');
@@ -641,7 +643,7 @@ class UserController{
 
         cot::$env['location'] = 'personal.resume_preview';
 
-        cot_rc_link_footer('modules/personal/js/personal.resume.js');
+        Resources::linkFileFooter('modules/personal/js/personal.resume.js');
 
         $a = cot_import('a', 'G', 'ALP');
         $uid = cot_import('uid', 'G', 'INT');  // user ID or 0
@@ -879,7 +881,7 @@ class UserController{
         cot::$out['subtitle'] = $title.' - '.$userName;
 
         $staffArr = array();
-        $staffs = personal_model_Staff::find();
+        $staffs = personal_model_Staff::findByCondition();
         if(!empty($staffs)){
             foreach($staffs as $staffRow){
                 $staffArr[$staffRow->id] = $staffRow->title;
@@ -887,7 +889,7 @@ class UserController{
         }
 
         $eduArr = array();
-        $edus = personal_model_EducationLevel::find();
+        $edus = personal_model_EducationLevel::findByCondition();
         if(!empty($edus)){
             foreach($edus as $eduRow){
                 $eduArr[$eduRow->id] = $eduRow->title;

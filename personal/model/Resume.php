@@ -1,11 +1,16 @@
 <?php
+defined('COT_CODE') or die('Wrong URL.');
 
 /**
- * Модель Резюме
+ * Resume model
  *
- * @method static personal_model_Resume getById($pk);
+ * @package Personal
+ * @author Kalnov Alexey <kalnovalexey@yandex.ru>
+ * @copyright (c) Portal30 Studio http://portal30.ru
+ *
+ * @method static personal_model_Resume getById($pk, $staticCache = true)
  * @method static personal_model_Resume fetchOne($conditions = array(), $order = '');
- * @method static personal_model_Resume[] find($conditions = array(), $limit = 0, $offset = 0, $order = '');
+ * @method static personal_model_Resume[] findByCondition($conditions = array(), $limit = 0, $offset = 0, $order = '')
  *
  *
  * @property int                       $id
@@ -53,7 +58,7 @@
  * @property string                    $phone      Контактный телефон,
  *                                                 если не указано, то используется телефон пользователя
  */
-class personal_model_Resume extends Som_Model_Abstract
+class personal_model_Resume extends Som_Model_ActiveRecord
 {
     /**
      * @var Som_Model_Mapper_Abstract $db
@@ -525,7 +530,7 @@ class personal_model_Resume extends Som_Model_Abstract
 
         // Remove all files
         if(cot_module_active('files')){
-            $files = files_model_File::find(array(
+            $files = files_model_File::findByCondition(array(
                 array('file_source', 'personal_resume'),
                 array('file_item', $this->_data['id'])
             ));

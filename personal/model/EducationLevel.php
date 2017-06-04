@@ -1,19 +1,22 @@
 <?php
+defined('COT_CODE') or die('Wrong URL.');
 
 /**
- * Модель personal_model_EducationLevel
+ * Education Level model
  *
- * Уровни образования
+ * @package Personal
+ * @author Kalnov Alexey <kalnovalexey@yandex.ru>
+ * @copyright (c) Portal30 Studio http://portal30.ru
  *
- * @method static personal_model_EducationLevel getById($pk);
+ * @method static personal_model_EducationLevel getById($pk, $staticCache = true)
  * @method static personal_model_EducationLevel fetchOne($conditions = array(), $order = '');
- * @method static personal_model_EducationLevel[] find($conditions = array(), $limit = 0, $offset = 0, $order = '');
+ * @method static personal_model_EducationLevel[] findByCondition($conditions = array(), $limit = 0, $offset = 0, $order = '')
  *
  * @property int       $id
  * @property string    $title   Загловок
  * @property int       $order   Порядок для сортировки
  */
-class personal_model_EducationLevel extends Som_Model_Abstract
+class personal_model_EducationLevel extends Som_Model_ActiveRecord
 {
     /**
      * @var Som_Model_Mapper_Abstract

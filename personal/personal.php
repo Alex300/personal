@@ -20,6 +20,7 @@ $env['location'] = 'personal';
 // Self requirements
 require_once cot_incfile($env['ext'], 'module');
 
+// Default ACL
 list($usr['auth_read'], $usr['auth_write'], $usr['isadmin']) = cot_auth('personal', 'a');
 cot_block($usr['auth_read']);
 

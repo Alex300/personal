@@ -1,19 +1,23 @@
 <?php
+defined('COT_CODE') or die('Wrong URL.');
 
 /**
- * Модель Personal_Model_Staff
- *
+ * Staffing table model
  * Уровни в штатном расписании
  *
- * @method static personal_model_Staff getById($pk);
- * @method static personal_model_Staff fetchOne($conditions = array(), $order = '');
- * @method static personal_model_Staff[] find($conditions = array(), $limit = 0, $offset = 0, $order = '');
+ * @package Personal
+ * @author Kalnov Alexey <kalnovalexey@yandex.ru>
+ * @copyright (c) Portal30 Studio http://portal30.ru
+ *
+ * @method static personal_model_Staff getById($pk, $staticCache = true)
+ * @method static personal_model_Staff fetchOne($conditions = array(), $order = '')
+ * @method static personal_model_Staff[] findByCondition($conditions = array(), $limit = 0, $offset = 0, $order = '')
  *
  * @property int       $id
  * @property string    $title   Загловок
  * @property int       $order   Порядок для сортировки
  */
-class personal_model_Staff extends Som_Model_Abstract
+class personal_model_Staff extends Som_Model_ActiveRecord
 {
     /**
      * @var Som_Model_Mapper_Abstract

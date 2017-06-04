@@ -3,9 +3,10 @@
  * module Personal for Cotonti Siena
  *
  * @package Personal
- * @author Kalnov Alexey
- * @copyright Portal30 Studio http://portal30.ru
+ * @author Kalnov Alexey <kalnovalexey@yandex.ru>
+ * @copyright (c) Portal30 Studio http://portal30.ru
  */
+
 defined('COT_CODE') or die('Wrong URL');
 
 // Lang file
@@ -55,9 +56,9 @@ $db_personal_resumes_schedule = (isset($db_personal_resumes_schedule)) ? $db_per
 
 function personal_select_tree($name, $chosen = array(), $data, $attrs = array(), $labelField = 'title', $parentField = 'parent'){
 
-    if(!defined('PERSONAL_JSTREE')){
-        cot_rc_link_footer(cot::$cfg['modules_dir'].'/personal/js/jstree/jstree.min.js');
-        cot_rc_link_footer(cot::$cfg['modules_dir'].'/personal/js/jstree/themes/default/style.min.css');
+    if(!defined('PERSONAL_JSTREE')) {
+        Resources::linkFileFooter(cot::$cfg['modules_dir'].'/personal/js/jstree/jstree.min.js');
+        Resources::linkFileFooter(cot::$cfg['modules_dir'].'/personal/js/jstree/themes/default/style.min.css');
         define('PERSONAL_JSTREE', 1);
     }
 
@@ -68,10 +69,10 @@ function personal_select_tree($name, $chosen = array(), $data, $attrs = array(),
 
     // Данные - это связанная модель
     if (is_string($data) && is_subclass_of($data, 'Som_Model_Abstract')) {
-        /** @var Som_Model_Abstract $modelToLink */
+        /** @var Som_Model_ActiveRecord $modelToLink */
         $modelToLink = $data;
 
-        $itemList   = $modelToLink::find(array(), 0, 0, array($labelField));
+        $itemList   = $modelToLink::findByCondition(array(), 0, 0, array($labelField));
         if(!empty($itemList)){
             foreach ($itemList as $Model) {
                 $parent = '#';
@@ -293,7 +294,7 @@ function personal_resumeList($tpl = 'personal.resumelist', $items = 0, $order = 
     $items = (int)$items;
 
     $itemList = null;
-    if($totalitems > 0) $itemList = personal_model_Resume::find($cond, $items, $d, $order);
+    if($totalitems > 0) $itemList = personal_model_Resume::findByCondition($cond, $items, $d, $order);
 
     $i = 1;
     if(!empty($itemList)){
@@ -429,7 +430,7 @@ function personal_vacancyList($tpl = 'personal.vacancylist', $items = 0, $order 
     $items = (int)$items;
 
     $itemList = null;
-    if($totalitems > 0) $itemList = personal_model_Vacancy::find($cond, $items, $d, $order);
+    if($totalitems > 0) $itemList = personal_model_Vacancy::findByCondition($cond, $items, $d, $order);
 
     $i = 1;
     if(!empty($itemList)){

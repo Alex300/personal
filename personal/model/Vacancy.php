@@ -1,13 +1,16 @@
 <?php
+defined('COT_CODE') or die('Wrong URL.');
 
 /**
- * Модель personal_model_Vacancy
+ * Vacancy (opening) model
  *
- * Вакансии
+ * @package Personal
+ * @author Kalnov Alexey <kalnovalexey@yandex.ru>
+ * @copyright (c) Portal30 Studio http://portal30.ru
  *
- * @method static personal_model_Vacancy getById($pk);
- * @method static personal_model_Vacancy fetchOne($conditions = array(), $order = '');
- * @method static personal_model_Vacancy[] find($conditions = array(), $limit = 0, $offset = 0, $order = '');
+ * @method static personal_model_Vacancy getById($pk, $staticCache = true)
+ * @method static personal_model_Vacancy fetchOne($conditions = array(), $order = '')
+ * @method static personal_model_Vacancy[] findByCondition($conditions = array(), $limit = 0, $offset = 0, $order = '')
  *
  * @property int $id
  * @property personal_model_Category[] $category [relation=tomany;label=title] Категория
@@ -52,7 +55,7 @@
  * @property string                 $phone          Контактный телефон,
  *                                                  если не указано, то используется телефон профиля работодателя
  */
-class personal_model_Vacancy extends Som_Model_Abstract
+class personal_model_Vacancy extends Som_Model_ActiveRecord
 {
     /**
      * @var Som_Model_Mapper_Abstract $db
@@ -426,7 +429,7 @@ class personal_model_Vacancy extends Som_Model_Abstract
 
         // Remove all files
         if(cot_module_active('files')){
-            $files = files_model_File::find(array(
+            $files = files_model_File::findByCondition(array(
                 array('file_source', 'personal_vacancy'),
                 array('file_item', $this->_data['id'])
             ));

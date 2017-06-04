@@ -5,19 +5,18 @@
  * Personal admin main controller
  *
  * @package Personal
- * @author Kalnov Alexey
- * @copyright Portal30 Studio http://portal30.ru
+ * @author Kalnov Alexey <kalnovalexey@yandex.ru>
+ * @copyright (c) Portal30 Studio http://portal30.ru
  */
-class MainController{
-    
+class MainController
+{
     /**
      * Main (index) Action.
      */
-    public function indexAction(){
-        global $L;
-
+    public function indexAction()
+    {
         $tmp = cot::$cfg['modules_dir'].'/'.cot::$env['ext'].'/tpl/'.cot::$env['ext'].'.admin.css';
-        cot_rc_link_file($tmp);
+        Resources::linkFile($tmp, 'css');
 
         $tpl = new XTemplate(cot_tplfile(cot::$env['ext'].'.admin.main'));
         $tpl->assign(array(
@@ -30,15 +29,18 @@ class MainController{
         return $tpl->text();
 	}
 
-    public function categoryAction(){
+    public function categoryAction()
+    {
         global $adminpath, $adminsubtitle;
 
         $adminpath[] = array(cot_url('admin', array('m' => cot::$env['ext'], 'a' => 'category')), cot::$L['Categories']);
         $adminsubtitle = cot::$L['Categories'].' - '.$adminsubtitle;
 
-        cot_rc_link_file(cot::$cfg['themes_dir'].'/'.cot::$cfg['defaulttheme'].'/js/select2/select2.css');
-        cot_rc_link_footer(cot::$cfg['themes_dir'].'/'.cot::$cfg['defaulttheme'].'/js/select2/select2.min.js');
-        cot_rc_link_footer(cot::$cfg['modules_dir'].'/'.cot::$env['ext'].'/js/'.cot::$env['ext'].'.admin.js');
+        // TODO use aliases for Select2
+        Resources::linkFile('lib/select2/css/select2.min.css');
+        Resources::linkFileFooter('lib/select2/js/select2.min.js');
+
+        Resources::linkFileFooter(cot::$cfg['modules_dir'].'/'.cot::$env['ext'].'/js/'.cot::$env['ext'].'.admin.js');
 
         $categories = personal_model_Category::getAllFlat();
 
@@ -236,7 +238,7 @@ class MainController{
 
         $tpl = new XTemplate(cot_tplfile(cot::$env['ext'].'.admin.staff'));
 
-        $staffLevels = personal_model_Staff::find();
+        $staffLevels = personal_model_Staff::findByCondition();
 
         if(!empty($staffLevels)){
             $i = 1;
@@ -280,7 +282,7 @@ class MainController{
 
         /** @var personal_model_Staff[] $staffs */
         $staffs = array();
-        $tmp = personal_model_Staff::find();
+        $tmp = personal_model_Staff::findByCondition();
         if(empty($tmp)) cot_redirect(cot_url('admin', array('m'=>'personal', 'a'=>'staff'), '', true));
 
         foreach($tmp as $staffRow){
@@ -364,7 +366,7 @@ class MainController{
 
         $tpl = new XTemplate(cot_tplfile(cot::$env['ext'].'.admin.education_level'));
 
-        $educationLevels = personal_model_EducationLevel::find();
+        $educationLevels = personal_model_EducationLevel::findByCondition();
 
         if(!empty($educationLevels)){
             $i = 1;
@@ -410,7 +412,7 @@ class MainController{
 
         /** @var personal_model_EducationLevel[] $items */
         $items = array();
-        $tmp = personal_model_EducationLevel::find();
+        $tmp = personal_model_EducationLevel::findByCondition();
         if(empty($tmp)) cot_redirect(cot_url('admin', array('m'=>'personal', 'a'=>'education'), '', true));
 
         foreach($tmp as $itemRow){

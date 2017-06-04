@@ -1,13 +1,16 @@
 <?php
+defined('COT_CODE') or die('Wrong URL.');
 
 /**
- * Модель Personal_Model_Category
+ * Category Model
  *
- * Описание модели
+ * @package Personal
+ * @author Kalnov Alexey <kalnovalexey@yandex.ru>
+ * @copyright (c) Portal30 Studio http://portal30.ru
  *
- * @method static personal_model_Category getById($pk);
- * @method static personal_model_Category fetchOne($conditions = array(), $order = '');
- * @method static personal_model_Category[] find($conditions = array(), $limit = 0, $offset = 0, $order = '');
+ * @method static personal_model_Category getById($pk, $staticCache = true)
+ * @method static personal_model_Category fetchOne($conditions = array(), $order = '')
+ * @method static personal_model_Category[] findByCondition($conditions = array(), $limit = 0, $offset = 0, $order = '')
  *
  * @property int                     $id
  * @property string                  $title         Загловок.
@@ -17,7 +20,7 @@
  * @property int $level Уровень вложенности
  * @property int $parent_id id родителя
  */
-class personal_model_Category extends Som_Model_Abstract
+class personal_model_Category extends Som_Model_ActiveRecord
 {
     protected static $_db = null;
     protected static $_columns = null;
@@ -41,10 +44,9 @@ class personal_model_Category extends Som_Model_Abstract
 
     protected static function structureTree()
     {
-
         if (empty(static::$_structureTree)) {
 
-            $cats = personal_model_Category::find(array(), 0, 0, array(array('title', 'ASC')));
+            $cats = personal_model_Category::findByCondition(array(), 0, 0, array(array('title', 'ASC')));
             if (empty($cats)) return null;
 
             $tmpArr = array();
@@ -80,7 +82,8 @@ class personal_model_Category extends Som_Model_Abstract
                 $ret[strval($value['id'])] = $value;
 
                 $level++; //Увеличиваем уровень вложености
-                //Рекурсивно вызываем этот же метод, но с новым $parent_id и $level
+
+                // Рекурсивно вызываем этот же метод, но с новым $parent_id и $level
                 $children = self::buildTree($arr, $value['id'], $level, $value['pathId']);
                 if (!empty($children)) $ret[strval($value['id'])]['items'] = $children;
                 $level--; //Уменьшаем уровень вложености
@@ -221,9 +224,9 @@ class personal_model_Category extends Som_Model_Abstract
         $modarray = array();
         $ret = array();
 
-        if(!defined('PERSONAL_JSTREE')){
-            cot_rc_link_footer(cot::$cfg['modules_dir'].'/personal/js/jstree/jstree.min.js');
-            cot_rc_link_footer(cot::$cfg['modules_dir'].'/personal/js/jstree/themes/default/style.min.css');
+        if(!defined('PERSONAL_JSTREE')) {
+            Resources::linkFileFooter(cot::$cfg['modules_dir'].'/personal/js/jstree/jstree.min.js');
+            Resources::linkFileFooter(cot::$cfg['modules_dir'].'/personal/js/jstree/themes/default/style.min.css');
             define('PERSONAL_JSTREE', 1);
         }
 
@@ -232,6 +235,7 @@ class personal_model_Category extends Som_Model_Abstract
          */
         if (empty($arr)){
             $fullarray = static::getAllFlat();
+            
         } else {
             foreach ($arr as $cat) {
                 $fullarray = array_merge($fullarray, static::GetParentsArray($cat));

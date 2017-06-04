@@ -6,15 +6,14 @@ defined('COT_CODE') or die('Wrong URL.');
  * Personal Main Controller class
  *
  * @package Personal
- * @subpackage user
- * @copyright http://portal30.ru
+ * @author Kalnov Alexey <kalnovalexey@yandex.ru>
+ * @copyright (c) Portal30 Studio http://portal30.ru
  */
-class MainController{
+class MainController
+{
 
-
-    public function indexAction(){
-        global $usr;
-
+    public function indexAction()
+    {
         $title = cot::$L['personal'];
 
         $crumbs = array($title);
@@ -60,7 +59,7 @@ class MainController{
         cot::$out['subtitle'] = $title.' - '.cot::$L['personal'];
 
         $staffArr = array();
-        $staffs = personal_model_Staff::find();
+        $staffs = personal_model_Staff::findByCondition();
         if(!empty($staffs)){
             foreach($staffs as $staffRow){
                 $staffArr[$staffRow->id] = $staffRow->title;
@@ -83,7 +82,7 @@ class MainController{
         );
 
         $eduArr = array();
-        $edus = personal_model_EducationLevel::find();
+        $edus = personal_model_EducationLevel::findByCondition();
         if(!empty($edus)){
             foreach($edus as $eduRow){
                 $eduArr[$eduRow->id] = $eduRow->title;
@@ -245,7 +244,7 @@ class MainController{
         $filterCategory = array();
         if (!empty($filter['cat'])) {
             $filter['empty'] = false;
-            $tmpCat          = personal_model_Category::find(array(array('id', $filter['cat'])), 0, 0, array(array('title', 'asc')));
+            $tmpCat          = personal_model_Category::findByCondition(array(array('id', $filter['cat'])), 0, 0, array(array('title', 'asc')));
             if ($tmpCat) {
                 foreach ($filter['cat'] as $key => $cat) {
                     if (!array_key_exists($cat, $tmpCat)) {
@@ -285,7 +284,7 @@ class MainController{
 
         $resumes = null;
         if($totallines > 0){
-            $resumes = personal_model_Resume::find($condition, $maxrowsperpage, $d, array(
+            $resumes = personal_model_Resume::findByCondition($condition, $maxrowsperpage, $d, array(
                 array('hot', 'DESC'), array('sort', 'DESC'), array('activated', 'desc')
             ));
         }
@@ -532,7 +531,7 @@ class MainController{
 
 
         $staffArr = array();
-        $staffs = personal_model_Staff::find();
+        $staffs = personal_model_Staff::findByCondition();
         if(!empty($staffs)){
             foreach($staffs as $staffRow){
                 $staffArr[$staffRow->id] = $staffRow->title;
@@ -555,7 +554,7 @@ class MainController{
         );
 
         $eduArr = array();
-        $edus = personal_model_EducationLevel::find();
+        $edus = personal_model_EducationLevel::findByCondition();
         if(!empty($edus)){
             foreach($edus as $eduRow){
                 $eduArr[$eduRow->id] = $eduRow->title;
@@ -668,7 +667,8 @@ class MainController{
         $filterCategory = array();
         if (!empty($filter['cat'])) {
             $filter['empty'] = false;
-            $tmpCat          = personal_model_Category::find(array(array('id', $filter['cat'])), 0, 0, array(array('title', 'asc')));
+            $tmpCat          = personal_model_Category::findByCondition(array(array('id', $filter['cat'])), 0,
+                0, array(array('title', 'asc')));
             if ($tmpCat) {
                 foreach ($filter['cat'] as $key => $cat) {
                     if (!array_key_exists($cat, $tmpCat)) {
@@ -709,7 +709,7 @@ class MainController{
 
         $vacancies = null;
         if($totallines > 0){
-            $vacancies = personal_model_Vacancy::find($condition, $maxrowsperpage, $d, array(
+            $vacancies = personal_model_Vacancy::findByCondition($condition, $maxrowsperpage, $d, array(
                 array('hot', 'DESC'), array('sort', 'DESC'), array('activated', 'desc')
             ));
         }

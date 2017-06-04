@@ -1,13 +1,18 @@
 <?php
+defined('COT_CODE') or die('Wrong URL.');
 
 /**
  * Модель personal_model_EmplProfile
  *
  * Профили (организации) работодателей
  *
- * @method static personal_model_EmplProfile getById($pk);
- * @method static personal_model_EmplProfile fetchOne($conditions = array(), $order = '');
- * @method static personal_model_EmplProfile[] find($conditions = array(), $limit = 0, $offset = 0, $order = '');
+ * @package Personal
+ * @author Kalnov Alexey <kalnovalexey@yandex.ru>
+ * @copyright (c) Portal30 Studio http://portal30.ru
+ *
+ * @method static personal_model_EmplProfile getById($pk, $staticCache = true)
+ * @method static personal_model_EmplProfile fetchOne($conditions = array(), $order = '')
+ * @method static personal_model_EmplProfile[] findByCondition($conditions = array(), $limit = 0, $offset = 0, $order = '')
  *
  * @property int $id                Идентификатор профиля компании
  * @property int $user_id           id пользователя
@@ -22,9 +27,9 @@
  * @property string $pphone         Контактный телефон профиля компании.
  * @property string $pemail         Адрес электронной почты компании.
  * @property string $site           Адрес сайта для этого профиля.
- * @property bool $is_default       Флаг профиля поумолчанию для данного аккаунта
- * @property int $type              Тип профиля. 0 - прямой, 1 - кадровое агентство
- * @property bool $anonim           Флаг анонимного профиля
+ * @property bool   $is_default       Флаг профиля поумолчанию для данного аккаунта
+ * @property int    $type              Тип профиля. 0 - прямой, 1 - кадровое агентство
+ * @property bool   $anonim           Флаг анонимного профиля
  * @property string $in_main_to     Время выключения услуги "в центре внимания
  * @property string $brand_bg       Бекграунд для страницы банка. Брендирование
  * @property string $brand_tpl
@@ -45,7 +50,7 @@
  * @todo правильное удаление профиля
  *
  */
-class personal_model_EmplProfile extends Som_Model_Abstract
+class personal_model_EmplProfile extends Som_Model_ActiveRecord
 {
     /** @var Som_Model_Mapper_Abstract $db */
     protected static $_db = null;
@@ -199,7 +204,7 @@ class personal_model_EmplProfile extends Som_Model_Abstract
     protected function beforeDelete(){
         // Remove all files
         if(cot_module_active('files')){
-            $files = files_model_File::find(array(
+            $files = files_model_File::findByCondition(array(
                 array('file_source', 'personal_empl_profile'),
                 array('file_item', $this->_data['id'])
             ));
