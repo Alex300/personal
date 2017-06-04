@@ -58,11 +58,11 @@ INSERT INTO `cot_personal_education_levels` (`id`, `title`, `order`) VALUES
 --
 CREATE TABLE IF NOT EXISTS `cot_personal_empl_profiles` (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` int UNSIGNED NOT NULL,
+  `user_id` INT UNSIGNED NOT NULL,
   `locked` TINYINT UNSIGNED DEFAULT 0,
   `title` VARCHAR(255),
   `alias` VARCHAR(255),
-  `text` text DEFAULT '',
+  `text` TEXT,
   `address` VARCHAR(255),
   `pphone` VARCHAR(255),
   `pemail` VARCHAR(255),
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `cot_personal_empl_profiles` (
   PRIMARY KEY(`id`),
   KEY `locked` (`locked`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Профили работодателей';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Профили работодателей';
 
 
 --
@@ -91,18 +91,18 @@ CREATE TABLE IF NOT EXISTS `cot_personal_empl_profiles` (
 CREATE TABLE IF NOT EXISTS `cot_personal_vacancies`
 (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `profile` int DEFAULT 0,
-  `user_id` int UNSIGNED NOT NULL,
+  `profile` INT DEFAULT 0,
+  `user_id` INT UNSIGNED NOT NULL,
   `title` VARCHAR(255) DEFAULT '',
   `alias` VARCHAR(255) DEFAULT '',
-  `text` text NOT NULL DEFAULT '',
-  `city` int DEFAULT 0,
+  `text` TEXT,
+  `city` INT DEFAULT 0,
   `district` VARCHAR(255) DEFAULT '',
   `salary` int DEFAULT 0,
   `vcontact_face`  VARCHAR(255) DEFAULT '',
   `vemail`  VARCHAR(255) DEFAULT '',
   `vphone`  VARCHAR(255) DEFAULT '',
-  `skills` text DEFAULT '',
+  `skills` TEXT,
   `experience` smallint UNSIGNED DEFAULT 0,
   `education` smallint UNSIGNED DEFAULT 0,
   `status` TINYINT UNSIGNED DEFAULT 0,
@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `cot_personal_vacancies`
   KEY `city` (`city`),
   KEY `user_id` (`user_id`),
   KEY `sort` (`sort`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Вакансии';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Вакансии';
 
 
 --
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `cot_personal_vacancies_employment` (
   `empl_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `vacancy_id` (`vacancy_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Занятость';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Занятость';
 
 
 --
@@ -152,20 +152,20 @@ CREATE TABLE IF NOT EXISTS `cot_personal_vacancies_schedule` (
   `sche_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `vacancy_id` (`vacancy_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='График работы';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='График работы';
 
 --
 -- Структура таблицы `cot_personal_vacancies_link_cot_personal_categories`
 --
 CREATE TABLE IF NOT EXISTS `cot_personal_vacancies_link_cot_personal_categories` (
   `xref_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `cot_personal_vacancies_id` int(11) DEFAULT NULL,
-  `cot_personal_categories_id` int(11) DEFAULT NULL,
+  `personal_vacancies_id` int(11) DEFAULT NULL,
+  `personal_categories_id` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY(`xref_id`),
-  KEY `cot_personal_vacancies_id` (`cot_personal_vacancies_id`),
-  KEY `cot_personal_categories_id` (`cot_personal_categories_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  KEY `cot_personal_vacancies_id` (`personal_vacancies_id`),
+  KEY `cot_personal_categories_id` (`personal_categories_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 
@@ -191,15 +191,15 @@ CREATE TABLE IF NOT EXISTS `cot_personal_resumes` (
   `user_id` int UNSIGNED NOT NULL,
   `title` VARCHAR(255) DEFAULT '',
   `alias` VARCHAR(255) DEFAULT '',
-  `text` text DEFAULT '' COMMENT 'Дополнительная информация',
+  `text` text COMMENT 'Дополнительная информация',
   `city` int DEFAULT 0,
   `city_name` VARCHAR(255) DEFAULT '',
   `district` VARCHAR(255) DEFAULT '',
   `salary` int DEFAULT 0,
   `remail`  VARCHAR(255) DEFAULT '',
   `rphone`  VARCHAR(255) DEFAULT '',
-  `other_contacts` text DEFAULT '' ,
-  `skills` text DEFAULT '',
+  `other_contacts` text,
+  `skills` text,
   `education_level` smallint UNSIGNED DEFAULT 0,
   `experience` smallint UNSIGNED DEFAULT 0,
   `status` TINYINT UNSIGNED DEFAULT 0,
@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `cot_personal_resumes` (
   `views` int DEFAULT 0,
   `activated` DATETIME ,
   `deactivated` DATETIME COMMENT 'Дата полследнего отключения резюме',
-  `note` text DEFAULT '' COMMENT 'Примечания модератора',
+  `note` text COMMENT 'Примечания модератора',
   `deny_unregister` TINYINT UNSIGNED DEFAULT 0 COMMENT 'Запретить к просмотру для незарегов',
   `sort` DATETIME DEFAULT '1970-01-01 00:00:00' COMMENT 'Поле для сортировки',
   `created` DATETIME,
